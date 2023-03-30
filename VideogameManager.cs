@@ -106,7 +106,7 @@ namespace adonet_db_videogame
             return videogames;
         }
 
-        public void AddVideogame(Videogame videogame)
+        public void AddVideGame(Videogame videogame)
         {
             using var conn = new SqlConnection(connStr);
 
@@ -148,8 +148,6 @@ namespace adonet_db_videogame
             try
             {
                 conn.Open();
-                using var tran = conn.BeginTransaction();
-
                 try
                 {
                     var query = "DELETE FROM videogame WHERE id = @Id";
@@ -159,12 +157,10 @@ namespace adonet_db_videogame
                     Console.WriteLine("Il videogame è stato cancellato correttamente");
 
                     Console.WriteLine("Commit");
-                    tran.Commit();
                 }
                 catch
                 {
                     Console.WriteLine("Rollback");
-                    tran.Rollback();
                 }
             }
             catch (Exception ex)
