@@ -47,7 +47,7 @@ namespace adonet_db_videogame
                     var release_date = reader.GetDateTime(release_dateIdx);
 
                     var softwareHouseIdx = reader.GetOrdinal("software_house_id");
-                    var software_house_id = reader.GetInt32(softwareHouseIdx);
+                    var software_house_id = reader.GetInt64(softwareHouseIdx);
 
                     var v = new Videogame(id, name, release_date, software_house_id);
                     videogames.Add(v);
@@ -92,7 +92,7 @@ namespace adonet_db_videogame
                     var release_date = reader.GetDateTime(release_dateIdx);
 
                     var softwareHouseIdx = reader.GetOrdinal("software_house_id");
-                    var software_house_id = reader.GetInt32(softwareHouseIdx);
+                    var software_house_id = reader.GetInt64(softwareHouseIdx);
 
                     var v = new Videogame(id, name, release_date, software_house_id);
                     videogames.Add(v);
@@ -105,5 +105,73 @@ namespace adonet_db_videogame
 
             return videogames;
         }
+
+        public void AddVideogame(Videogame videogame)
+        {
+            using var conn = new SqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+                using var tran = conn.BeginTransaction();
+
+                try
+                {
+                    var query = "INSERT INTO videogame (name, release_date, software_house_id)" +
+                            "VALUES (@Name, @ReleaseDate, @SoftwareHouse)";
+                    using var cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Name", videogame.Name);
+                    cmd.Parameters.AddWithValue("@ReleaseDate", videogame.ReleaseDate);
+                    cmd.Parameters.AddWithValue("@SoftwareHouse", videogame.SoftwareHouse);
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Il videogame è stato aggiunto");
+
+                    Console.WriteLine("Commit");
+                    tran.Commit();
+                }
+                catch
+                {
+                    Console.WriteLine("Rollback");
+                    tran.Rollback();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void DeleteVideogame(long id)
+        {
+            using var conn = new SqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+                using var tran = conn.BeginTransaction();
+
+                try
+                {
+                    var query = "DELETE FROM videogame WHERE id = @Id";
+                    using var cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Il videogame è stato cancellato correttamente");
+
+                    Console.WriteLine("Commit");
+                    tran.Commit();
+                }
+                catch
+                {
+                    Console.WriteLine("Rollback");
+                    tran.Rollback();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
