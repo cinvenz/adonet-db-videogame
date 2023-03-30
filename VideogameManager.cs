@@ -61,7 +61,7 @@ namespace adonet_db_videogame
             return videogames;
         }
 
-        public List<Videogame> GetVideogameByIdLike(string likeString)
+        public List<Videogame> GetVideogameByIdLike(long likeLong)
         {
             using var conn = new SqlConnection(connStr);
             var videogames = new List<Videogame>();
@@ -76,7 +76,7 @@ namespace adonet_db_videogame
                     + " ORDER BY id";
 
                 using var command = new SqlCommand(query, conn);
-                command.Parameters.AddWithValue("@IdLike", $"{likeString}");
+                command.Parameters.AddWithValue("@IdLike", $"{likeLong}");
 
                 using SqlDataReader reader = command.ExecuteReader();
 
