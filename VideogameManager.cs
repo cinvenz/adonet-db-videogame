@@ -148,6 +148,8 @@ namespace adonet_db_videogame
             try
             {
                 conn.Open();
+                using var tran = conn.BeginTransaction();
+
                 try
                 {
                     var query = "DELETE FROM videogame WHERE id = @Id";
@@ -157,10 +159,12 @@ namespace adonet_db_videogame
                     Console.WriteLine("Il videogame è stato cancellato correttamente");
 
                     Console.WriteLine("Commit");
+                    tran.Commit();
                 }
                 catch
                 {
                     Console.WriteLine("Rollback");
+                    tran.Rollback();
                 }
             }
             catch (Exception ex)
