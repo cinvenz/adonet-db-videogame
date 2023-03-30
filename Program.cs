@@ -1,11 +1,13 @@
 ﻿using adonet_db_videogame;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 string connStr = "Data Source=localhost;Initial Catalog = db - videogames;Integrated Security = True;Encrypt=False;";
 var connessioneSql = new VideogameManager(connStr);
 
-connessioneSql.AddVideGame(Videogame);
+Videogame newVg = new Videogame(Name, overview, ReleaseDate, SoftwareHouse);
+connessioneSql.AddVideGame(Videogame videogame);
 
 Console.WriteLine("Ricerca per nome");
 var userName = Console.ReadLine();

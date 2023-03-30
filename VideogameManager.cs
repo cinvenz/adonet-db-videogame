@@ -43,13 +43,16 @@ namespace adonet_db_videogame
                     var nameIdx = reader.GetOrdinal("name");
                     var name = reader.GetString(nameIdx);
 
+                    var overviewIdx = reader.GetOrdinal("overview");
+                    var overview = reader.GetString(overviewIdx);
+
                     var release_dateIdx = reader.GetOrdinal("release_date");
                     var release_date = reader.GetDateTime(release_dateIdx);
 
                     var softwareHouseIdx = reader.GetOrdinal("software_house_id");
                     var software_house_id = reader.GetInt64(softwareHouseIdx);
 
-                    var v = new Videogame(id, name, release_date, software_house_id);
+                    var v = new Videogame(id, name, overview, release_date, software_house_id);
                     videogames.Add(v);
                 }
             }
@@ -88,13 +91,16 @@ namespace adonet_db_videogame
                     var nameIdx = reader.GetOrdinal("name");
                     var name = reader.GetString(nameIdx);
 
+                    var overviewIdx = reader.GetOrdinal("overview");
+                    var overview = reader.GetString(overviewIdx);
+
                     var release_dateIdx = reader.GetOrdinal("release_date");
                     var release_date = reader.GetDateTime(release_dateIdx);
 
                     var softwareHouseIdx = reader.GetOrdinal("software_house_id");
                     var software_house_id = reader.GetInt64(softwareHouseIdx);
 
-                    var v = new Videogame(id, name, release_date, software_house_id);
+                    var v = new Videogame(id, name, overview, release_date, software_house_id);
                     videogames.Add(v);
                 }
             }
